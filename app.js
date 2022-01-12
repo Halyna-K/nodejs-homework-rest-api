@@ -3,6 +3,7 @@ import logger from 'morgan'
 import cors from 'cors'
 import {HttpCode} from './lib/constants'
 
+import authRouter from './routes/api/auth'
 import contactsRouter from './routes/api/contacts'
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.use('/api/contacts', contactsRouter)
+app.use('/api/auth', authRouter)
 
 app.use((req, res) => {
   res
