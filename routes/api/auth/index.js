@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validatorCreate, validatorSubscription, validatorUpdateSubscription, validatorToken} from '../../../midllewares/validation/userValidation'
-import {signup, login, logout, current, updateSubscription} from '../../../controllers/users/index'
+import {signup, login, logout, current, updateSubscription} from '../../../controllers/auth/index'
 import guard from '../../../midllewares/guard'
 import subscriptionAccess from '../../../midllewares/subscriptionAccess'
 import { Subscription } from '../../../lib/constants'
