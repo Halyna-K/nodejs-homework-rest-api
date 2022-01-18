@@ -10,9 +10,9 @@ class AuthService {
     }
 
     async create (body) {
-        const {id, name, email, subscription} = await repositoryUsers.create(body)
+        const {id, name, email, subscription, avatarURL} = await repositoryUsers.create(body)
         return {
-            id, name, email, subscription
+            id, name, email, subscription, avatarURL
         }
     }
 
@@ -42,4 +42,4 @@ class AuthService {
     }
 }
 
-export default AuthService
+export default new AuthService()
