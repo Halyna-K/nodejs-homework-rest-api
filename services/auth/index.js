@@ -24,7 +24,7 @@ class AuthService {
     async getUser (email, password) {
         const user = await repositoryUsers.findByEmail(email)
         const isValidPassword = await user?.isValidPassword(password)
-        if (!isValidPassword || !user?.isVerify) {
+        if (!isValidPassword || !user?.verify) {
             return null
         }
         return user
