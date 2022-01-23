@@ -1,10 +1,12 @@
 import { HttpCode } from '../../lib/constants'
 import repositoryUsers from '../../repository/users'
 import { EmailService, SenderSendgrid } from '../../services/email'
+import { CustomError } from '../../lib/custom-error'
 
 const verifyUser = async (req, res, next) => {
     const verificationToken = req.params.token
     const userFromToken = await repositoryUsers.findByVerificationToken(verificationToken)
+
     if (userFromToken) {
         await repositoryUsers.updateVerification(userFromToken.id, true)
 
@@ -14,12 +16,7 @@ const verifyUser = async (req, res, next) => {
             data: { message: 'Verification successful' },
         })
     }
-
-    res.status(HttpCode.NOT_FOUND).json({
-        status: 'error',
-        code: HttpCode.NOT_FOUND,
-        data: { message: 'User not found' },
-    })
+    throw new CustomError(HttpCode.NOT_FOUND, 'User not found' )
 }
 
 const repeatEmailVerifyUser = async (req, res, next) => {
@@ -33,25 +30,15 @@ const repeatEmailVerifyUser = async (req, res, next) => {
         const isSend = await emailService.sendVerificationEmail( email, name, verificationToken )
 
         if (isSend) {
-        return res.status(HttpCode.OK).json({
-            status: 'success',
-            code: HttpCode.OK,
-            data: { message: 'Verification email sent' }
-        })
+            return res.status(HttpCode.OK).json({
+                status: 'success',
+                code: HttpCode.OK,
+                data: { message: 'Verification email sent' }
+            })
         }
-        res.status(HttpCode.UE).json({
-            status: 'error',
-            code: HttpCode.UE,
-            data: { message: 'Verification has already been passed' },
-        })
+            throw new CustomError(HttpCode.BAD_REQUEST, 'Verification already has been passed' )
     }
-
-    res.status(HttpCode.BAD_REQUEST).json({
-        status: 'error',
-        code: HttpCode.BAD_REQUEST,
-        data: { message: 'missing required field email' },
-    })
-
+        throw new CustomError(HttpCode.BAD_REQUEST, 'missing required field email' )
 }
 
 export { verifyUser, repeatEmailVerifyUser }

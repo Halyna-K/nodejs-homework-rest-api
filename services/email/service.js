@@ -19,7 +19,7 @@ export class EmailService {
     }
 
     createEmailTemplate (username, verificationToken) {
-        const mailGenerator = new Mailgen({
+        const mailGenerator = new Mailgen ({
             theme: 'default',
             product: {
                 name: 'Halyna',
@@ -31,14 +31,14 @@ export class EmailService {
             body: {
                 name:username,
                 intro: "Welcome! We're very excited to have you on board.",
-                action: {
-                    instructions: 'To get started with our API, please click here:',
-                    button: {
-                        color: '#22BC66',
-                        text: 'Confirm your account',
-                        link: `${this.link}/api/users/verify/${verificationToken}`
+                    action: {
+                        instructions: 'To get started with our API, please click here:',
+                        button: {
+                            color: '#22BC66',
+                            text: 'Confirm your account',
+                            link: `${this.link}api/users/verify/${verificationToken}`
+                        },
                     },
-                },
                 outro: 'If you need help, write us!'
             },
         }
@@ -52,13 +52,13 @@ export class EmailService {
             subject: 'Verify email',
             html: emailBody
         }
-    try {
-        const result = await this.sender.send(msg)
-        console.log(result);
-        return  true
-    } catch (error) {
-        console.error(error.message);
-        return false
-    }
+        try {
+            const result = await this.sender.send(msg)
+            console.log(result);
+            return  true
+        } catch (error) {
+            console.error(error.message);
+            return false
+        }
     }
 }

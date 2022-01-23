@@ -7,7 +7,7 @@ const findByEmail = async (email) => {
     return await User.findOne({ email })
 }
 const findByVerificationToken = async (verificationToken) => {
-    return await User.findOne({ verificationToken })
+   return await User.findOne({ verificationToken })
 }
 const create = async (body) => {
     const user = new User(body)
@@ -24,7 +24,7 @@ const updateToken = async (id, token) => {
     return await User.updateOne({_id: id}, {token})
 }
 const updateVerification = async (id, status ) => {
-    return await User.updateOne({_id: id}, {verify: status, verificationToken: null})
+   return await User.updateOne({_id: id}, {verify: status, verificationToken: null})
 }
 const updateAvatar = async (id, avatar) => {
     return await User.updateOne({_id: id}, {avatar})
