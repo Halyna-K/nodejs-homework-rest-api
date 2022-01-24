@@ -4,15 +4,16 @@ import {signup, login, logout, current, updateSubscription} from '../../../contr
 import guard from '../../../midllewares/guard'
 import subscriptionAccess from '../../../midllewares/subscriptionAccess'
 import { Subscription } from '../../../lib/constants'
+import wrapperError from '../../../midllewares/wrapperError'
 
 const router = new Router()
 
-router.patch('/', [guard, subscriptionAccess(Subscription.PRO), validatorUpdateSubscription], updateSubscription)
+router.patch('/', [guard, subscriptionAccess(Subscription.PRO), validatorUpdateSubscription], wrapperError(updateSubscription))
 
-router.post('/signup', validatorCreate, signup)
-router.post('/login', validatorSubscription, login)
-router.post('/logout', guard, logout)
+router.post('/signup', validatorCreate, wrapperError(signup))
+router.post('/login', validatorSubscription, wrapperError(login))
+router.post('/logout', guard, wrapperError(logout))
 
-router.get('/current', [guard, validatorToken], current)
+router.get('/current', [guard, validatorToken], wrapperError(current))
 
 export default router

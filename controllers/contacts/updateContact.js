@@ -1,5 +1,6 @@
 import repositoryContacts from '../../repository/contacts'
 import { HttpCode } from '../../lib/constants'
+import { CustomError } from '../../lib/custom-error'
 
 export const updateContact = async (req, res, next) => {
     const {id} = req.params
@@ -8,5 +9,5 @@ export const updateContact = async (req, res, next) => {
     if (contact) {
       return res.status(HttpCode.OK).json({status: 'success', code: HttpCode.OK, data: {contact} })
     }
-    res.status(HttpCode.NOT_FOUND).json({status: 'error', code: HttpCode.NOT_FOUND, message: `Not found contact with id: ${id}` })
+    throw new CustomError(HttpCode.NOT_FOUND, `Not found contact with id: ${id}` )
 }

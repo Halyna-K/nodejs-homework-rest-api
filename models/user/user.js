@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+import { nanoid } from 'nanoid'
 import bcrypt from 'bcryptjs'
 import gravatar from 'gravatar'
 import { Subscription } from '../../lib/constants'
@@ -40,6 +41,15 @@ const userSchema = new Schema({
             default: function () {
                 return gravatar.url(this.email, {s:'250'}, true)
             },
+        },
+        verify: {
+            type: Boolean,
+            default: false,
+        },
+        verificationToken: {
+            type: String,
+            default: nanoid(),
+            required: [true, 'Verify token is required'],
         },
   }, { versionKey: false, timestamps: true, toJSON: {virtuals: true, transform: function(doc, ret){ delete ret._id
     return ret
